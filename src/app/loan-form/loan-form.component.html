@@ -1,0 +1,27 @@
+<div class="loan-container">
+	<mat-card class="loan-card">
+		<form [formGroup]="loanform" class="loan-form">
+			<mat-form-field>
+				<mat-label>Loan Amount</mat-label>
+				<input matInput formControlName="loanAmount" type="number" required>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Annual Interest Rate (%)</mat-label>
+				<input matInput formControlName="annualInterestRate" type="number"  required>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Loan Period (Months)</mat-label>
+				<input matInput formControlName="loanPeriod" type="number"  required>
+			</mat-form-field>
+			<mat-slide-toggle (change)="toggleChanged()"></mat-slide-toggle>
+			<mat-form-field>
+				<mat-label class="monthly-payment">Monthly payment amount</mat-label>
+				<input matInput formControlName="monthlyPaymentAmount" type="number"  required>
+			</mat-form-field>
+			<button mat-card-title type="button" color="primary">Calculate</button>
+		</form>
+		</mat-card>
+		
+</div>
+
+
