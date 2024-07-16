@@ -14,6 +14,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loan-form',
@@ -36,7 +37,7 @@ export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
   toggleControl = true;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.loanform = this.fb.group({
@@ -81,5 +82,9 @@ export class LoanFormComponent implements OnInit {
   toggleChanged() {
     this.toggleControl = !this.toggleControl;
     this.onToggleChange();
+  }
+
+  calculateLoan() {
+    this.router.navigateByUrl('/payment-table');
   }
 }
