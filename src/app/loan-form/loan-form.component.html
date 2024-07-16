@@ -18,7 +18,7 @@
 				<mat-label class="monthly-payment">Monthly payment amount</mat-label>
 				<input matInput formControlName="monthlyPaymentAmount" type="number"  required>
 			</mat-form-field>
-			<button mat-card-title type="button" color="primary">Calculate</button>
+			<button mat-card-title type="button" color="primary" (click)="calculateLoan()">Calculate</button>
 		</form>
 		</mat-card>
 		
