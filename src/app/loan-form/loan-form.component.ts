@@ -85,6 +85,11 @@ export class LoanFormComponent implements OnInit {
   }
 
   calculateLoan() {
+		if(this.loanform.invalid) {
+			this.loanform.markAllAsTouched();
+			return;
+		}
+
     this.router.navigateByUrl('/payment-table');
   }
 }
