@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ActivatedRoute } from '@angular/router';
+import { LoanCalculatorService}	from '../loan-calculator.service';
 
 @Component({
   selector: 'app-payment-table',
@@ -23,7 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.scss']
 })
-export class PaymentTableComponent implements OnChanges {
+export class PaymentTableComponent implements OnInit {
   @Input() payments: any[] = [];
   displayedColumns: String[] = [
     'month',
@@ -35,9 +37,17 @@ export class PaymentTableComponent implements OnChanges {
   ];
   dataSource = new MatTableDataSource<any>([]);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['payments']) {
-      this.dataSource.data = this.payments;
-    }
-  }
+constructor(private route: ActivatedRoute, private loanCalculatorService: LoanCalculatorService) {}
+
+  ngOnInit(): void {
+		this.route.queryParams.subscribe((params) => {
+			const loanAmount = +params['loanAmount'];
+			const annualInterestRate = +params['annualInterestRate'];
+			const loanPeriod = +params['loanPeriod'];
+			const monthlyPaymentAmount = +params['monthlyPaymentAmount'];
+
+			this.payments = this.loanCalculatorService.calculateMonthlyPayment(loanAmount, annualInterestRate, loanPeriod, monthlyPaymentAmount);
+			this.dataSource.data = this.payments;
+		})
+}
 }
