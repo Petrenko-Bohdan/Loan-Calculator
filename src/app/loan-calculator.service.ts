@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {format} from 'date-fns';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class LoanCalculatorService {
 
 	let balance = principal;
 	let totalInterest = 0;
+	let currentDate = new Date();
 
 	for(let i=0; i<numberOfPayments; i++){
 		const interests = balance * monthlyRate;
@@ -28,13 +30,18 @@ export class LoanCalculatorService {
 
 		balance -= principalPayment;
 		totalInterest += interests;
+
+		const formattedDate = format(currentDate, 'MM/yyyy');
+
 		payments.push({
-			month: i+1,
+			month: formattedDate,
 			interests: interests,
 			principal: principalPayment,
 			balance: balance>0?balance:0,
 			totalInterest: totalInterest,
 		});
+		currentDate.setMonth(currentDate.getMonth()+1)
+
 		if(balance<=0) break;
 	}
 	return payments;
