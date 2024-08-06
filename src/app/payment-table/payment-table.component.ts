@@ -27,7 +27,7 @@ import { LoanCalculatorService}	from '../loan-calculator.service';
 })
 export class PaymentTableComponent implements OnInit {
   @Input() payments: any[] = [];
-	displayedColumns: string[] = ['month', 'interests', 'principal', 'balance', 'totalInterest', 'capital', 'capitalInstallment', 'profit', 'overpayment'];
+	displayedColumns: string[] = ['month', 'capital', 'interests', 'principalInstalment', 'totalInstallment', 'overpayment', 'profit'];
   dataSource = new MatTableDataSource<any>([]);
 
 constructor(private route: ActivatedRoute, private loanCalculatorService: LoanCalculatorService) {}
