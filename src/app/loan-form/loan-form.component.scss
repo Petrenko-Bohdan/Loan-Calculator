@@ -36,3 +36,12 @@ input[type="number"]::-webkit-inner-spin-button {
 .monthly-payment{
 	font-size: 15px;
 }
+
+.error-message-correctMinimumPayment {
+	position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  margin-top: 10px;
+}
