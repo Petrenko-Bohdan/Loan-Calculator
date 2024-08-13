@@ -21,7 +21,9 @@
 			<button mat-card-title type="button" color="primary" (click)="calculateLoan()">Calculate</button>
 		</form>
 		</mat-card>
-		
+</div>
+<div *ngIf="errorMessage" class="error-message-correctMinimumPayment">
+	{{ errorMessage }}
 </div>
 
 
