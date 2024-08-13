@@ -36,6 +36,7 @@ import { Router } from '@angular/router';
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
   toggleControl = true;
+	errorMessage: string ='';
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -93,6 +94,17 @@ export class LoanFormComponent implements OnInit {
 	const annualInterestRate = this.loanform.get('annualInterestRate')?.value;
 	const loanPeriod = this.loanform.get('loanPeriod')?.value;
 	const monthlyPaymentAmount = this.loanform.get('monthlyPaymentAmount')?.value;
+	
+	const monthlyInterestRate = annualInterestRate / 12 / 100;
+  const minimumPayment = loanAmount * monthlyInterestRate;
+	const correctMinimumPayment= minimumPayment + 0.01;
+
+	if (monthlyPaymentAmount <= minimumPayment) {
+		this.errorMessage = 'Monthly payment amount is too low to cover the interest. Minimum payment should be ' + correctMinimumPayment.toFixed(2);
+		return;
+	}
+
+	this.errorMessage = '';
 
 	this.router.navigate(['/payment-table'],{
 		queryParams:{
