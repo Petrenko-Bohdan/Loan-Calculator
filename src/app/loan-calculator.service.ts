@@ -1,6 +1,5 @@
-import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,6 @@ export class LoanCalculatorService {
 let loanCapital=loanAmount;
 let totalInstallment=0;
 let profit=0;
-let overpayment=0;
 let currentDate = new Date();
 
 for(let i=0; i<numberOfPayments; i++){
@@ -29,7 +27,6 @@ for(let i=0; i<numberOfPayments; i++){
 	
 	totalInstallment = interests+principalInstalment;
 	profit += interests;
-	overpayment += profit-loanAmount;
 	loanCapital -= principalInstalment;
 
 	const formatDate=format(currentDate, 'MM/yyyy')
@@ -41,7 +38,7 @@ for(let i=0; i<numberOfPayments; i++){
 		principalInstalment: principalInstalment.toFixed(2),
 		totalInstallment: totalInstallment.toFixed(2),		
 		profit: profit.toFixed(2),
-		overpayment: overpayment.toFixed(2),
+    overpayment: '',
 	});
 	currentDate.setMonth(currentDate.getMonth()+1);
 	if (loanCapital<=0){
@@ -64,4 +61,15 @@ for(let i=0; i<numberOfPayments; i++){
 		return loanAmount*monthlyInterestRate/(1-Math.pow(1+monthlyInterestRate,-numberOfPayments));
 	}
 
+  recalculatePaymentsWithOverpayment(payments: any[]): any[] {
+    return payments.map((payment) => {
+      payment.totalInstallment = (
+        parseFloat(payment.principalInstalment) +
+        parseFloat(payment.interests) +
+        parseFloat(payment.overpayment || '0')).toFixed(2);
+      return payment;
+    });
+  }
 }
+
+
