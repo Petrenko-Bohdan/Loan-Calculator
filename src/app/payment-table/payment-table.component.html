@@ -22,7 +22,9 @@
 		</ng-container>
 		<ng-container matColumnDef="overpayment">
       <mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.overpayment }}</mat-cell>
+      <mat-cell *matCellDef="let element">
+				<input matInput  [(ngModel)]="element.overpayment" (ngModelChange)="updateOverpayment(element)" />
+			</mat-cell>
     </ng-container>
     <ng-container matColumnDef="profit">
       <mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
