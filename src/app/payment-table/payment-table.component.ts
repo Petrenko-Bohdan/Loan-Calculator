@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { LoanCalculatorService } from '../loan-calculator.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-table',
@@ -21,6 +22,7 @@ import { LoanCalculatorService } from '../loan-calculator.service';
     MatTableModule,
     MatCardModule,
     MatSlideToggleModule,
+		FormsModule
   ],
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.scss']
@@ -48,5 +50,10 @@ export class PaymentTableComponent implements OnInit {
       this.payments = this.loanCalculatorService.calculateMonthlyPayment(loanAmount, annualInterestRate, loanPeriod, monthlyPaymentAmount);
       this.dataSource.data = this.payments;
     });
+  }
+
+	updateOverpayment(element: any): void {
+    this.payments = this.loanCalculatorService.recalculatePaymentsWithOverpayment(this.payments);
+    this.dataSource.data = this.payments;
   }
 }
