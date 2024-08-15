@@ -31,11 +31,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent implements OnInit {
-	
   @Input() payments: any[] = [];
   displayedColumns: string[] = ['month', 'capital', 'interests', 'principalInstalment', 'totalInstallment', 'overpayment', 'profit'];
   dataSource = new MatTableDataSource<any>([]);
 	errorMessage: string = '';
+
   constructor(private route: ActivatedRoute, private loanCalculatorService: LoanCalculatorService) {}
 
   ngOnInit(): void {
