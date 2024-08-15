@@ -25,7 +25,6 @@ for(let i=0; i<numberOfPayments; i++){
 	const capital = loanCapital;
 	const interests = loanCapital*monthlyInterestsRate;
 	const principalInstalment = monthlyPayment-interests;
-	
 	totalInstallment = interests+principalInstalment;
 	profit += interests;
 	loanCapital -= principalInstalment;
@@ -71,14 +70,31 @@ for(let i=0; i<numberOfPayments; i++){
 		const numberOfPayments = loanPeriod;
 		return loanAmount*monthlyInterestRate/(1-Math.pow(1+monthlyInterestRate,-numberOfPayments));
 	}
+	
+	recalculateCapital(payment: any): number {
+		return parseFloat(payment.principalInstalment)+parseFloat(payment.interests)+parseFloat(payment.overpayment || '0');
+	}
 
   recalculatePaymentsWithOverpayment(payments: any[]): any[] {
-    return payments.map((payment) => {
-      payment.totalInstallment = (
-        parseFloat(payment.principalInstalment) +
-        parseFloat(payment.interests) +
-        parseFloat(payment.overpayment || '0')).toFixed(2);
+    let loanCapital = parseFloat(payments[0].capital);
+
+    return payments.map((payment, index) => {
+      if (index > 0) {
+        loanCapital -= parseFloat(payments[index - 1].overpayment || '0');
+      }
+
+      const interests = loanCapital * (parseFloat(payment.interests) / parseFloat(payment.capital));
+			const principalInstalment = parseFloat(payment.totalInstallment) - interests;
+
+      payment.capital = loanCapital.toFixed(2);
+      payment.interests = interests.toFixed(2);
+      payment.principalInstalment = principalInstalment.toFixed(2);
+      payment.totalInstallment = this.recalculateCapital(payment).toFixed(2);
+
+      loanCapital -= principalInstalment;
+
       return payment;
     });
   }
+
 }
