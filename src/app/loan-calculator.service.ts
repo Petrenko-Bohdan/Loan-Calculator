@@ -5,6 +5,7 @@ import { format } from 'date-fns';
   providedIn: 'root',
 })
 export class LoanCalculatorService {
+	errorMessage: string = '';
 
 	constructor() { }
 
@@ -50,6 +51,16 @@ for(let i=0; i<numberOfPayments; i++){
 
 	calculateLoanPeriod(loanAmount: number, annualInterestRate:number, monthlyPaymentAmount:number):number{
 		const monthlyInterestRate = annualInterestRate/12/100;
+		let minMonthlyPaymentAmount = loanAmount*monthlyInterestRate;
+		let correctMinimumPayment = minMonthlyPaymentAmount + 0.01
+
+		if (monthlyPaymentAmount <= minMonthlyPaymentAmount) {
+			this.errorMessage = 'Monthly payment amount is too low to cover the interest. Minimum payment should be ' + correctMinimumPayment.toFixed(2);
+			return 0;
+		}
+	
+		this.errorMessage = '';		
+		
 		return Math.ceil(
 			Math.log(monthlyPaymentAmount/(monthlyPaymentAmount-loanAmount*monthlyInterestRate))/Math.log(1 + monthlyInterestRate)
 		)
@@ -71,5 +82,3 @@ for(let i=0; i<numberOfPayments; i++){
     });
   }
 }
-
-
