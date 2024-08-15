@@ -1,3 +1,7 @@
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
 <mat-card-actions>
   <mat-table [dataSource]="payments">
     <ng-container matColumnDef="month">
