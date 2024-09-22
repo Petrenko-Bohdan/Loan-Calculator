@@ -15,6 +15,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoanCalculatorService } from '../services/loan-calculator.service';
+
 
 @Component({
   selector: 'app-loan-form',
@@ -29,6 +31,7 @@ import { Router } from '@angular/router';
     MatSlideToggleModule,
     CommonModule,
     ReactiveFormsModule,
+		
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
@@ -38,7 +41,7 @@ export class LoanFormComponent implements OnInit {
   toggleControl = true;
   
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private loanCalculatorService: LoanCalculatorService) {}
 
   ngOnInit(): void {
     this.loanform = this.fb.group({
@@ -57,7 +60,7 @@ export class LoanFormComponent implements OnInit {
     this.onToggleChange();
   }
 
-  decimalPointValidator(
+  private decimalPointValidator(
     control: AbstractControl
   ): { [key: string]: string } | null {
     const value = control.value;
@@ -70,7 +73,7 @@ export class LoanFormComponent implements OnInit {
       : { invalidDecimal: 'Invalid decimal value' };
   }
 
-  onToggleChange(): void {
+  public onToggleChange(): void {
     if (this.toggleControl) {
       this.loanform.get('loanPeriod')?.enable();
       this.loanform.get('monthlyPaymentAmount')?.disable();
@@ -80,12 +83,12 @@ export class LoanFormComponent implements OnInit {
     }
   }
 
-  toggleChanged() {
+  public toggleChanged(): void {
     this.toggleControl = !this.toggleControl;
     this.onToggleChange();
   }
 
-  calculateLoan() {
+  public calculateLoan(): void {
     if (this.loanform.invalid){
       this.loanform.markAllAsTouched();
       return;
@@ -95,13 +98,8 @@ export class LoanFormComponent implements OnInit {
     const loanPeriod = this.loanform.get('loanPeriod')?.value;
     const monthlyPaymentAmount = this.loanform.get('monthlyPaymentAmount')?.value;
 
-    this.router.navigate(['/payment-table'], {
-      queryParams: {
-        loanAmount,
-        annualInterestRate,
-        loanPeriod,
-        monthlyPaymentAmount,
-      }
-    });
+		this.loanCalculatorService.calculateLoan(loanAmount, annualInterestRate, loanPeriod, monthlyPaymentAmount);
+		
+    this.router.navigate(['/payment-table']);
   }
 }
