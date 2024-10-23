@@ -4,13 +4,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoanCalculatorService } from '../services/loan-calculator.service';
 
 @Component({
   selector: 'app-loan-form',
@@ -21,9 +19,7 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-		MatButtonModule,
-		MatIconModule,
-		MatDividerModule
+		
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
@@ -31,7 +27,7 @@ import { Router } from '@angular/router';
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private loanCalculatorService: LoanCalculatorService) {}
 
   ngOnInit(): void {
     this.loanform = this.fb.group({
@@ -42,14 +38,16 @@ export class LoanFormComponent implements OnInit {
   }
 
   public calculateLoan(): void {
-    if (this.loanform.valid) {
-      const loanAmount = this.loanform.get('loanAmount')?.value;
-      const interestRate = this.loanform.get('interestRate')?.value;
-      const loanTerm = this.loanform.get('loanTerm')?.value;
-
-      this.router.navigate(['/payment-table']);
-    } else {
+    if (this.loanform.invalid){
       this.loanform.markAllAsTouched();
+      return;
     }
+    const loanAmount = this.loanform.get('loanAmount')?.value;
+    const annualInterestRate = this.loanform.get('annualInterestRate')?.value;
+    const loanPeriod = this.loanform.get('loanPeriod')?.value;
+    
+		this.loanCalculatorService.calculateLoan(loanAmount, annualInterestRate, loanPeriod);
+		
+    this.router.navigate(['/payment-table']);
   }
 }
