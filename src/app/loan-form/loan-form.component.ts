@@ -19,7 +19,6 @@ import { LoanCalculatorService } from '../services/loan-calculator.service';
     MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-		
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
@@ -27,9 +26,17 @@ import { LoanCalculatorService } from '../services/loan-calculator.service';
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private loanCalculatorService: LoanCalculatorService) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private loanCalculatorService: LoanCalculatorService
+  ) {}
 
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.loanform = this.fb.group({
       loanAmount: ['', Validators.required],
       interestRate: ['', Validators.required],
@@ -38,16 +45,19 @@ export class LoanFormComponent implements OnInit {
   }
 
   public calculateLoan(): void {
-    if (this.loanform.invalid){
+    if (this.loanform.invalid) {
       this.loanform.markAllAsTouched();
       return;
     }
-    const loanAmount = this.loanform.get('loanAmount')?.value;
-    const annualInterestRate = this.loanform.get('annualInterestRate')?.value;
-    const loanPeriod = this.loanform.get('loanPeriod')?.value;
-    
-		this.loanCalculatorService.calculateLoan(loanAmount, annualInterestRate, loanPeriod);
-		
+
+    const { loanAmount, interestRate, loanTerm} = this.loanform.value;
+
+    this.loanCalculatorService.calculateLoan(
+      loanAmount,
+      interestRate,
+      loanTerm
+    );
+
     this.router.navigate(['/payment-table']);
   }
 }
