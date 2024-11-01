@@ -1,8 +1,8 @@
 <mat-card-actions>
-	<mat-table  class="payments">
+	<mat-table mat-table [dataSource]="payments" class="payments">
 		<ng-container matColumnDef="month">
-			<mat-header-cell *matHeaderCellDef>Month</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.month}}</mat-cell>
+			<mat-header-cell class="cell__header" *matHeaderCellDef>Month</mat-header-cell>
+			<mat-cell class="cell__column" *matCellDef="let element">{{element.month}}</mat-cell>
 		</ng-container>
 		<ng-container matColumnDef="capital">
 			<mat-header-cell *matHeaderCellDef>Capital</mat-header-cell>
@@ -22,7 +22,9 @@
 		</ng-container>
 		<ng-container matColumnDef="overpayment">
 			<mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
-			<mat-cell *matCellDef="let element; let i=index">{{element.balance}}</mat-cell>
+			<mat-cell *matCellDef="let element; let i=index">
+				<input class="overpayment__input" matInput [(ngModel)]="element.overpayment" (change)="updateOverpayment(i)">
+			</mat-cell>
 		</ng-container>
 		<ng-container matColumnDef="profit">
 			<mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
