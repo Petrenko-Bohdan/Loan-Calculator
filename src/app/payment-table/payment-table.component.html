@@ -1,36 +1,32 @@
 <mat-card-actions>
-	<mat-table mat-table [dataSource]="payments" class="payments">
-		<ng-container matColumnDef="month">
-			<mat-header-cell class="cell__header" *matHeaderCellDef>Month</mat-header-cell>
-			<mat-cell class="cell__column" *matCellDef="let element">{{element.month}}</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="capital">
-			<mat-header-cell *matHeaderCellDef>Capital</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.capital}}</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="interest">
-			<mat-header-cell *matHeaderCellDef>Interest</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.interest}}</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="principalInstalment">
-			<mat-header-cell *matHeaderCellDef>Principal Instalment</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.principalInstalment}}</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="totalInstalment">
-			<mat-header-cell *matHeaderCellDef>Total Instalment</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.totalInstalment}}</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="overpayment">
-			<mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
-			<mat-cell *matCellDef="let element; let i=index">
-				<input class="overpayment__input" matInput [(ngModel)]="element.overpayment" (change)="updateOverpayment(i)">
-			</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="profit">
-			<mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
-			<mat-cell *matCellDef="let element">{{element.profit}}</mat-cell>
-		</ng-container>
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</mat-table>
+  <mat-table mat-table [dataSource]="dataSource" class="payments">
+    <ng-container matColumnDef="month">
+      <mat-header-cell class="cell__header" *matHeaderCellDef>Month</mat-header-cell>
+      <mat-cell class="cell__column" *matCellDef="let element">{{element.month}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="capital">
+      <mat-header-cell *matHeaderCellDef>Capital</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.capital}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="interest">
+      <mat-header-cell *matHeaderCellDef>Interest</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.interest}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="principalInstalment">
+      <mat-header-cell *matHeaderCellDef>Principal Instalment</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.principalInstalment}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="overpayment">
+      <mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
+      <mat-cell *matCellDef="let element; let i=index">
+        <input class="overpayment__input" matInput [(ngModel)]="element.overpayment" (change)="updateOverpayment(i)">
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="profit">
+      <mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.profit}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </mat-card-actions>
