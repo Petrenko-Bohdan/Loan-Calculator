@@ -1,11 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { LoanCalculatorService } from '../services/loan-calculator.service';
 import { FormsModule } from '@angular/forms';
-import { takeUntil } from 'rxjs';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({
@@ -15,27 +16,23 @@ import { Subject } from 'rxjs';
     MatCardModule,
 		MatTableModule,
 		FormsModule,
+		CommonModule,
   ],
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.scss'],
 })
-export class PaymentTableComponent implements OnDestroy, OnInit {
+export class PaymentTableComponent implements OnInit {
   displayedColumns: string[] = ['month', 'capital', 'interest', 'principalInstalment', 'overpayment', 'profit',];
-  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-	private unsubscribe$ = new Subject<void>();
+  payments$!: Observable<any>;
+	
 
   constructor(private route: ActivatedRoute, private loanCalculateService: LoanCalculatorService) {}
 
   ngOnInit(): void {
-    this.loanCalculateService.payments$.pipe(takeUntil(this.unsubscribe$)).subscribe((data)=>{
-      this.dataSource.data = data;
-    });
+    this.payments$ = this.loanCalculateService.payments$;
   }
 
-	ngOnDestroy(): void {
-		this.unsubscribe$.next();
-		this.unsubscribe$.complete();
-	}
+	
 
   public updateOverpayment(index: number): void {
     this.loanCalculateService.calculateLoanWithOverpayment(index);
