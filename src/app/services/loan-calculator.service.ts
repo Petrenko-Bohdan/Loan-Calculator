@@ -74,7 +74,8 @@ export class LoanCalculatorService {
 
     for (let i = index + 1; i < payments.length; i++) {
       const interest = balance * this.monthlyInterestRate;
-      const principalInstalment = parseFloat(payments[i].monthlyPayment) - interest;
+      const principalInstalment =
+        parseFloat(payments[i].monthlyPayment) - interest;
       const overpayment = parseFloat(payments[i].overpayment);
 
       payments[i] = {
@@ -86,9 +87,9 @@ export class LoanCalculatorService {
         monthlyPayment: (principalInstalment + interest).toFixed(2),
       };
 
-      balance -= (principalInstalment + overpayment);
+      balance -= principalInstalment + overpayment;
     }
 
-    this.paymentSubject.next(payments);
+    this.paymentSubject.next([...payments]);
   }
 }
