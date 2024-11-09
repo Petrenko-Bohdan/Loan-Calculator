@@ -28,16 +28,18 @@
       }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="overpayment">
-      <mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index">
-        <input
-          class="overpayment__input"
-          matInput
-          [(ngModel)]="element.overpayment"
-          (change)="updateOverpayment(i)"
-        />
-      </mat-cell>
-    </ng-container>
+			<mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
+			<mat-cell *matCellDef="let element; let i = index">
+				<input
+					class="overpayment__input"
+					matInput
+					type="number"
+					[ngModel]="getOverpayment(element)"
+					(ngModelChange)="setOverpayment(element, $event, i)"
+					(change)="updateOverpayment(i)"
+				/>
+			</mat-cell>
+		</ng-container>
     <ng-container matColumnDef="profit">
       <mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.profit }}</mat-cell>
