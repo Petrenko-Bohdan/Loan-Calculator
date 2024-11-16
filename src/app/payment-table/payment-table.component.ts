@@ -38,7 +38,6 @@ export class PaymentTableComponent implements OnInit {
 
   setOverpayment(element: PaymentElement, value: any, index: number): void {
     element.overpayment = value === null ? 0 : value;
-    this.loanCalculateService.calculateLoanWithOverpayment(index);
   }
 
   public updateOverpayment(index: number): void {
