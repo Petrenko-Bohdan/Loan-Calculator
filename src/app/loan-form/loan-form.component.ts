@@ -9,6 +9,8 @@ import { Validators } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoanCalculatorService } from '../services/loan-calculator.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
+
 
 @Component({
   selector: 'app-loan-form',
@@ -19,12 +21,14 @@ import { LoanCalculatorService } from '../services/loan-calculator.service';
     MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+		MatSlideToggleModule,
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
 })
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
+	toggleControl = true;
 
   constructor(
     private fb: FormBuilder,
@@ -40,9 +44,25 @@ export class LoanFormComponent implements OnInit {
     this.loanform = this.fb.group({
       loanAmount: ['', Validators.required],
       interestRate: ['', Validators.required],
-      loanTerm: ['', Validators.required],
+      loanTerm: [{ value:'', disabled: false}],
+			monthlyPayment: [{ value:'', disabled: true}],
     });
   }
+
+	public onToggleChange(): void {
+		if (this.toggleControl){
+			this.loanform.get('loanTerm')?.enable();
+			this.loanform.get('monthlyPayment')?.disable();
+		} else {
+			this.loanform.get('loanTerm')?.disable();
+			this.loanform.get('monthlyPayment')?.enable();
+		}
+	}
+
+	public toggleChanged(): void {
+		this.toggleControl = !this.toggleControl;
+		this.onToggleChange();
+	}
 
   public calculateLoan(): void {
     if (this.loanform.invalid) {
