@@ -15,6 +15,11 @@
 			<mat-label>Loan Term</mat-label>
 			<input matInput formControlName="loanTerm" type="number" required/>
 		</mat-form-field>
+		<mat-slide-toggle (change)="toggleChanged()"></mat-slide-toggle>
+		<mat-form-field>
+			<mat-label>Monthly Payment</mat-label>
+			<input matInput formControlName="monthlyPayment" type="number" required/>
+		</mat-form-field>
 		<button mat-card-title type="button" (click)="calculateLoan()">Calculate</button>
 		</form>
 	</mat-card>
