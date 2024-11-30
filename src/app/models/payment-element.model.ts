@@ -5,4 +5,5 @@ export interface PaymentElement {
 	principalInstalment: number;
 	overpayment: number;
 	monthlyPayment: number;
+	profit: number;
 }
