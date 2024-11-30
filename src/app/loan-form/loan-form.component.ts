@@ -9,7 +9,7 @@ import { Validators } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoanCalculatorService } from '../services/loan-calculator.service';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @Component({
@@ -26,9 +26,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
 })
+
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
-	toggleControl = true;
+  toggleControl = true;
 
   constructor(
     private fb: FormBuilder,
@@ -70,14 +71,22 @@ export class LoanFormComponent implements OnInit {
       return;
     }
 
-    const { loanAmount, interestRate, loanTerm} = this.loanform.value;
+    const { loanAmount, interestRate, loanTerm, monthlyPayment } =
+      this.loanform.value;
 
-    this.loanCalculatorService.calculateLoan(
-      loanAmount,
-      interestRate,
-      loanTerm
-    );
-
+    if (this.toggleControl) {
+      this.loanCalculatorService.calculateLoan(
+        loanAmount,
+        interestRate,
+        loanTerm
+      );
+    } else {
+      this.loanCalculatorService.calculateLoanBasedOnMonthlyPayment(
+        loanAmount,
+        interestRate,
+        monthlyPayment
+      );
+    }
     this.router.navigate(['/payment-table']);
   }
 }
