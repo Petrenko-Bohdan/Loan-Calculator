@@ -29,6 +29,13 @@ export class LoanCalculatorService {
     );
   }
 
+	private calculateLoanTerm(): number {
+		return Math.ceil(
+			Math.log(this.monthlyPaymentAmount / (this.monthlyPaymentAmount - this.loanAmount * this.monthlyInterestRate)) /
+			Math.log(1 + this.monthlyInterestRate)
+		);
+	}
+
   public calculateLoan(
     loanAmount: number,
     interestRate: number,
@@ -65,6 +72,42 @@ export class LoanCalculatorService {
     this.paymentSubject.next(payments);
   }
 
+	public calculateLoanBasedOnMonthlyPayment(
+		loanAmount: number,
+		interestRate: number,
+		monthlyPayment: number
+	): void {
+		this.loanAmount = loanAmount;
+		this.interestRate = interestRate;
+		this.monthlyPaymentAmount = monthlyPayment;
+		this.loanTerm = this.calculateLoanTerm();
+	
+		const payments = [];
+		let balance = this.loanAmount;
+		let currentDate = new Date();
+	
+		for (let i = 0; i < this.loanTerm; i++) {
+			const interest = balance * this.monthlyInterestRate;
+			const principalInstalment = this.monthlyPaymentAmount - interest;
+	
+			
+	
+			payments.push({
+				month: this.formatDate(),
+				capital: balance.toFixed(2),
+				interest: interest.toFixed(2),
+				principalInstalment: principalInstalment.toFixed(2),
+				overpayment: 0,
+				monthlyPayment: this.monthlyPaymentAmount.toFixed(2),
+			});
+	
+			currentDate.setMonth(currentDate.getMonth() + 1);
+			balance -= principalInstalment;
+		}
+	
+		this.paymentSubject.next(payments);
+	}
+	
   public calculateLoanWithOverpayment(index: number): void {
     const payments = this.paymentSubject.getValue();
     let balance =
@@ -79,6 +122,7 @@ export class LoanCalculatorService {
         parseFloat(payments[i].monthlyPayment) - interest;
       const overpayment = parseFloat(payments[i].overpayment);
 			const profit = originalInterest - interest;
+			const profitSum = (payments[i-1].profit ? parseFloat(payments[i-1].profit) : 0) + profit;
 
 			
       payments[i] = {
@@ -89,7 +133,7 @@ export class LoanCalculatorService {
         overpayment: overpayment,
         monthlyPayment: (principalInstalment + interest).toFixed(2),
 				originalInterest: originalInterest.toFixed(2),
-				profit: profit.toFixed(2),
+				profit: profitSum.toFixed(2),
       };
 
       balance -= principalInstalment + overpayment;
