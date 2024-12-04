@@ -37,7 +37,18 @@ export class LoanCalculatorService {
 	}
 
   public calculateLoan(
-    loanAmount: number,
+		formData: { loanAmount: number; interestRate: number; loanTerm: number; monthlyPayment: number },
+		toggleControl: boolean
+	){
+
+		if(toggleControl){
+			this.calculateLoanBasedOnLoanTerm(formData.loanAmount, formData.interestRate, formData.loanTerm);
+		}else{
+			this.calculateLoanBasedOnMonthlyPayment(formData.loanAmount, formData.interestRate, formData.monthlyPayment);
+		};	
+	}
+
+	public calculateLoanBasedOnLoanTerm(loanAmount: number,
     interestRate: number,
     loanTerm: number
   ): void {
@@ -90,8 +101,6 @@ export class LoanCalculatorService {
 			const interest = balance * this.monthlyInterestRate;
 			const principalInstalment = this.monthlyPaymentAmount - interest;
 	
-			
-	
 			payments.push({
 				month: this.formatDate(),
 				capital: balance.toFixed(2),
@@ -124,7 +133,6 @@ export class LoanCalculatorService {
 			const profit = originalInterest - interest;
 			const profitSum = (payments[i-1].profit ? parseFloat(payments[i-1].profit) : 0) + profit;
 
-			
       payments[i] = {
         month: this.formatDate(),
         capital: balance.toFixed(2),
