@@ -66,27 +66,23 @@ export class LoanFormComponent implements OnInit {
 	}
 
   public calculateLoan(): void {
-    if (this.loanform.invalid) {
+		if (this.loanform.invalid) {
       this.loanform.markAllAsTouched();
       return;
     }
 
-    const { loanAmount, interestRate, loanTerm, monthlyPayment } =
+		const { loanAmount, interestRate, loanTerm, monthlyPayment } =
       this.loanform.value;
 
-    if (this.toggleControl) {
-      this.loanCalculatorService.calculateLoan(
-        loanAmount,
-        interestRate,
-        loanTerm
-      );
-    } else {
-      this.loanCalculatorService.calculateLoanBasedOnMonthlyPayment(
-        loanAmount,
-        interestRate,
-        monthlyPayment
-      );
-    }
+			const formData = {
+				loanAmount: loanAmount,
+				interestRate: interestRate,
+				loanTerm: loanTerm,
+				monthlyPayment: monthlyPayment
+			};
+
+			this.loanCalculatorService.calculateLoan(	formData, this.toggleControl)
+
     this.router.navigate(['/payment-table']);
   }
 }
