@@ -1,0 +1,8 @@
+<mat-form-field class="language-switcher" appearance="fill">
+  <mat-label>Language</mat-label>
+  <mat-select [value]="currentLanguage" (selectionChange)="changeLanguage($event.value)">
+    <mat-option value="en">English</mat-option>
+    <mat-option value="pl">Polski</mat-option>
+    <mat-option value="uk">Українська</mat-option>
+  </mat-select>
+</mat-form-field>
