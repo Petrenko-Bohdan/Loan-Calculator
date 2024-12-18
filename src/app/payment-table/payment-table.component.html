@@ -7,28 +7,28 @@
   >
     <ng-container matColumnDef="month">
       <mat-header-cell class="cell__header" *matHeaderCellDef
-        >Month</mat-header-cell
+        >{{translations[currentLanguage].month}}</mat-header-cell
       >
       <mat-cell class="cell__column" *matCellDef="let element">{{
         element.month
       }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="capital">
-      <mat-header-cell *matHeaderCellDef>Capital</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{translations[currentLanguage].capital}}</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.capital }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="interest">
-      <mat-header-cell *matHeaderCellDef>Interest</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{translations[currentLanguage].interest}}</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.interest }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="principalInstalment">
-      <mat-header-cell *matHeaderCellDef>Principal Instalment</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{translations[currentLanguage].principalInstalment}}</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
         element.principalInstalment
       }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="overpayment">
-			<mat-header-cell *matHeaderCellDef>Overpayment</mat-header-cell>
+			<mat-header-cell *matHeaderCellDef>{{translations[currentLanguage].overpayment}}</mat-header-cell>
 			<mat-cell *matCellDef="let element; let i = index">
 				<input
 					class="overpayment__input"
@@ -41,7 +41,7 @@
 			</mat-cell>
 		</ng-container>
     <ng-container matColumnDef="profit">
-      <mat-header-cell *matHeaderCellDef>Profit</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{translations[currentLanguage].profit}}</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.profit === 0 ? '' : element.profit | number:'1.0-2' }}</mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
