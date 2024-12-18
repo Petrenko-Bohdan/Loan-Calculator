@@ -2,25 +2,23 @@
 	<mat-card class="loan-card">
 		<form [formGroup]="loanform" class="loan-form">
 			<mat-form-field>
-				<mat-label>
-					Loan Amount
-				</mat-label>
+				<mat-label>{{ translations[currentLanguage].loanAmount }}</mat-label>
 				<input matInput formControlName="loanAmount" type="number" required/>
 		</mat-form-field>
 		<mat-form-field>
-			<mat-label>Interest Rate</mat-label>
+			<mat-label>{{ translations[currentLanguage].interestRate }}</mat-label>
 			<input matInput formControlName="interestRate" type="number" required/>				
 		</mat-form-field>
 		<mat-form-field>
-			<mat-label>Loan Term</mat-label>
+			<mat-label>{{ translations[currentLanguage].loanTerm }}</mat-label>
 			<input matInput formControlName="loanTerm" type="number" required/>
 		</mat-form-field>
 		<mat-slide-toggle (change)="toggleChanged()"></mat-slide-toggle>
 		<mat-form-field>
-			<mat-label>Monthly Payment</mat-label>
+			<mat-label>{{ translations[currentLanguage].monthlyPayment }}</mat-label>
 			<input matInput formControlName="monthlyPayment" type="number" required/>
 		</mat-form-field>
-		<button mat-card-title type="button" (click)="calculateLoan()">Calculate</button>
+		<button mat-card-title type="button" (click)="calculateLoan()">{{translations[currentLanguage].calculate}}</button>
 		</form>
 	</mat-card>
 </div>
