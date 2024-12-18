@@ -10,6 +10,9 @@ import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoanCalculatorService } from '../services/loan-calculator.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { translations } from '../shared/translations';
+import { LanguageService } from '../services/language.service';
+import { Translations } from '../models/translations.model';
 
 
 @Component({
@@ -22,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatFormFieldModule,
     ReactiveFormsModule,
 		MatSlideToggleModule,
+		
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
@@ -30,15 +34,22 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class LoanFormComponent implements OnInit {
   loanform!: FormGroup;
   toggleControl = true;
+	currentLanguage: keyof Translations = '';
+  translations: Translations = translations;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loanCalculatorService: LoanCalculatorService
+    private loanCalculatorService: LoanCalculatorService,
+		private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+
+		this.languageService.language$.subscribe((language) => {
+      this.currentLanguage = language;
+    });
   }
 
   private initForm(): void {
