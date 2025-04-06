@@ -3,6 +3,8 @@ import { LanguageService } from '../services/language.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { translations } from '../shared/translations';
+import { Translations } from '../models/translations.model';
 
 @Component({
   selector: 'app-language-switcher',
@@ -12,7 +14,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./language-switcher.component.scss']
 })
 export class LanguageSwitcherComponent implements OnInit {
-  currentLanguage: string = '';
+  currentLanguage: keyof Translations = '';
+	translations: Translations = translations;
 
   constructor(private languageService: LanguageService) {}
 
