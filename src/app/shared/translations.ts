@@ -1,5 +1,7 @@
 export const translations = {
   en: {
+		contact: 'Website development and support',
+		language: 'Language',
     loanAmount: 'Loan Amount',
     interestRate: 'Interest Rate',
     loanTerm: 'Loan Term',
@@ -13,6 +15,8 @@ export const translations = {
     calculate: 'Calculate',
   },
   pl: {
+		contact: 'Tworzenie i wsparcie strony internetowej',
+		language: 'Język',
     loanAmount: 'Kwota kredytu',
     interestRate: 'Oprocentowanie',
     loanTerm: 'Okres kredytowania',
@@ -26,6 +30,8 @@ export const translations = {
     calculate: 'Oblicz',
   },
   uk: {
+		contact: 'Розробка та підтримка веб-сайту',
+		language: 'Мова',
     loanAmount: 'Сума кредиту',
     interestRate: 'Процентна ставка',
     loanTerm: 'Термін кредиту',

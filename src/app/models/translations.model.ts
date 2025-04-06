@@ -1,5 +1,7 @@
 export interface Translations {
   [key: string]: {
+		contact: string;
+		language: string;
     loanAmount: string;
     interestRate: string;
     loanTerm: string;
