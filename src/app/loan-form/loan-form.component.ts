@@ -24,8 +24,7 @@ import { Translations } from '../models/translations.model';
     MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-		MatSlideToggleModule,
-		
+		MatSlideToggleModule,		
   ],
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss'],
